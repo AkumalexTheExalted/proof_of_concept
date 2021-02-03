@@ -209,13 +209,96 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
 }
 
 
-int main() {/*
+//test comportement logiciel commande fenetre
+void test_CC_fenetre(){
+    capteur_vocal cv1;
+    capteur_vocal cv2;
+    capteur_vocal cv3;
+    capteur_vocal cv4;
+    capteur_vocal cv5;
+    capteur_vocal cv6;
+
+    cv1.commande = "fenetre ouvre 25";
+    cv1.auth = 1;
+    cv2.commande = "fenetre ferme";
+    cv2.auth = 1;
+    cv3.commande = "fenetre ouvre";
+    cv3.auth = 1;
+    cv4.commande = "fenetre ouvrir 25";
+    cv4.auth = 1;
+    cv5.commande = "fenetre fermer";
+    cv5.auth = 1;
+    cv6.commande = "fenetre ouvre -25";
+    cv6.auth = 1;
+
+    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
+}
+
+
+//test comportement logiciel commande chauffage
+void test_CC_chauffage(){
+    capteur_vocal cv1;
+    capteur_vocal cv2;
+    capteur_vocal cv3;
+    capteur_vocal cv4;
+    capteur_vocal cv5;
+    capteur_vocal cv6;
+
+    cv1.commande = "chauffage augmente";
+    cv1.auth = 1;
+    cv2.commande = "chauffage baisse";
+    cv2.auth = 1;
+    cv3.commande = "chauffage augmentation";
+    cv3.auth = 1;
+    cv4.commande = "chauffage diminution";
+    cv4.auth = 1;
+    cv5.commande = "chauffage augmente 20";
+    cv5.auth = 1;
+    cv6.commande = "chaffage baisse 30";
+    cv6.auth = 1;
+
+    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
+}
+
+//test comportement logiciel commande paiement
+void test_CB(){
+    capteur_vocal cv1;
+    capteur_vocal cv2;
+    capteur_vocal cv3;
+    capteur_vocal cv4;
+
+    cv1.commande = "paiement McDonalds 36";
+    cv1.auth = 1;
+    cv2.commande = "paiement 36";
+    cv2.auth = 1;
+    cv3.commande = "paiement McDonalds";
+    cv3.auth = 1;
+    cv4.commande = "paiement EIDD 600";
+    cv4.auth = 1;
+
+    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv2), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
+}
+
+int main() {
+    /*
     capteur_vocal test;
     test.commande[0]= FENETRE;
     test.commande[1] = OUVRIR;
     test.commande[2] = NC;
     //controleur(test, 0, 0, 0);
-
 
     is_correct_capteur(test);*/
 
@@ -226,6 +309,10 @@ int main() {/*
     //char** test = parser(3,cdv.commande);
 
     commande ret = controleur(cdv, 20, 0, ECHEC);
+
+    test_CC_fenetre();
+    test_CC_chauffage();
+    test_CB();
 
     //printf("%s\n", test[1]);
     printf("valeur temperature : %f\n", ret.temperature);
