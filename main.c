@@ -4,9 +4,9 @@
 #include <string.h>
 #include <ctype.h>
 //Pour exe: gcc -o test_case main.c -lcunit
-//#include "CUnit/Automated.h"
+#include "CUnit/Automated.h"
 //#include "CUnit/Console.h"
-#include <CUnit/Basic.h>
+//#include <CUnit/Basic.h>
 #include <CUnit/CUnit.h>
 
 #define MAX_TEMP    25
@@ -346,8 +346,8 @@ int main() {
         return CU_get_error();
     }
 
-    //CU_automated_run_tests();
-    CU_basic_run_tests();
+    CU_automated_run_tests();
+    //CU_basic_run_tests();
     printf("\n\n");
 
     CU_cleanup_registry();
