@@ -251,7 +251,7 @@ void test_CC_fenetre(){
 }
 
 
-//test comportement logiciel commande chauffage
+//test comportement logiciel commande chauffage.
 void test_CC_chauffage(){
     capteur_vocal cv1;
     capteur_vocal cv2;
