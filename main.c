@@ -116,7 +116,7 @@ char** parser(int taille, char *commande){
  * [fenetre ferme]
  * [chauffage aumgente]
  * [chauffage baisse]
- * [paiement destinataire %montant]*/
+ * [paiement destinataire %montant].*/
 bool is_correct_capteur(capteur_vocal cdv){
     int number_of_word = count_words(cdv.commande);
     //printf("number of word : %d\n", number_of_word);
