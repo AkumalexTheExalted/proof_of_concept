@@ -218,7 +218,7 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
 }
 
 
-//test comportement logiciel commande fenetre
+//test comportement logiciel commande fenetre.
 void test_CC_fenetre(){
     CU_pSuite pSuite = NULL;
 
