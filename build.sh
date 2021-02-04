@@ -16,6 +16,7 @@ rm -rf build
 mkdir build
 cd build
 cmake ../CMakeLists.txt
+cd ..
 
 # Build inside the build-wrapper
 
