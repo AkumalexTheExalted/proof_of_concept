@@ -4,3 +4,4 @@ project(proof_of_concept C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(proof_of_concept main.c)
+target_link_libraries(proof_of_concept cunit)
