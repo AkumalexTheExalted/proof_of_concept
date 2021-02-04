@@ -281,7 +281,7 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
 }
 
-//test comportement logiciel commande paiement
+//test comportement logiciel commande paiement.
 void test_CB(){
     capteur_vocal cv1;
     capteur_vocal cv2;
