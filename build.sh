@@ -11,12 +11,6 @@ curl --create-dirs -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip https://sonarc
 unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
 export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
 
-# Setup the build system
-  - mkdir build
-  - cd build
-  - cmake ..
-  - cd ..
-
 # Build inside the build-wrapper
 
 build-wrapper-linux-x86-64 --out-dir bw-output cmake --build build/
