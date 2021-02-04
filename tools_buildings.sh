@@ -11,7 +11,7 @@ flawfinder .
 echo "=========================================================="
 echo " "
 echo "========== Analyses statiques : RATS =========="
-/home/diego/Téléchargements/rats-2.4/rats --quiet -w 3 ../../proof_of_concept/
+/home/diego/Téléchargements/rats-2.4/rats --quiet -w 3 .
 echo "==============================================="
 echo " "
 echo "========== Analyses dynamiques : valgrind =========="
