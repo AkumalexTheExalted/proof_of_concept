@@ -13,7 +13,7 @@ export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
 
 # Build inside the build-wrapper
 
-build-wrapper-linux-x86-64 --out-dir bw-output cmake --build build/
+build-wrapper-linux-x86-64 --out-dir bw-output cmake CMakeLists.txt
 
 # Run sonar scanner (here, arguments are passed through the command line but most of them can be written in the sonar-project.properties file)
 sonar-scanner \
