@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
+//Pour exe: gcc -o test_case main.c -lcunit
+//#include "CUnit/Automated.h"
+//#include "CUnit/Console.h"
+#include <CUnit/Basic.h>
+#include <CUnit/CUnit.h>
 
 #define MAX_TEMP    25
 #define MIN_TEMP    15
@@ -34,6 +39,10 @@ typedef struct commande{
     char* destinataire;
     int montant;
 } commande;
+
+/* Test Suite setup and cleanup functions: */
+int init_suite(void) { return 0; }
+int clean_suite(void) { return 0; }
 
 bool is_correct_temp(float temp){
     if(temp >= MIN_TEMP && temp <= MAX_TEMP){
@@ -211,6 +220,8 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
 
 //test comportement logiciel commande fenetre
 void test_CC_fenetre(){
+    CU_pSuite pSuite = NULL;
+
     capteur_vocal cv1;
     capteur_vocal cv2;
     capteur_vocal cv3;
@@ -299,10 +310,9 @@ int main() {
     test.commande[1] = OUVRIR;
     test.commande[2] = NC;
     //controleur(test, 0, 0, 0);
-
     is_correct_capteur(test);*/
 
-    capteur_vocal cdv;
+    /*capteur_vocal cdv;
     cdv.commande = "paiement Diegu_enterprise 56";
 
     //printf("valeur : %d\n", is_correct_capteur(cdv));
@@ -310,15 +320,41 @@ int main() {
 
     commande ret = controleur(cdv, 20, 0, ECHEC);
 
-    test_CC_fenetre();
-    test_CC_chauffage();
-    test_CB();
-
     //printf("%s\n", test[1]);
     printf("valeur temperature : %f\n", ret.temperature);
     printf("valeur pourcentage : %d\n", ret.pourcentage);
     printf("valeur destinataire : %s\n", ret.destinataire);
-    printf("valeur montant : %d\n", ret.montant);
+    printf("valeur montant : %d\n", ret.montant);*/
 
-    return 0;
+    CU_pSuite pSuite = NULL;
+
+    if ( CUE_SUCCESS != CU_initialize_registry() )
+        return CU_get_error();
+
+    pSuite = CU_add_suite( "CSC_test_suite", init_suite, clean_suite );
+    if ( NULL == pSuite ) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    if ( (NULL == CU_add_test(pSuite, "test_CC_fenetre", test_CC_fenetre)) ||
+         (NULL == CU_add_test(pSuite, "test_CC_chauffage", test_CC_chauffage)) ||
+         (NULL == CU_add_test(pSuite, "test_CB", test_CB))
+            )
+    {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    //CU_automated_run_tests();
+    CU_basic_run_tests();
+    printf("\n\n");
+
+    CU_cleanup_registry();
+
+    /*test_CC_fenetre();
+    test_CC_chauffage();
+    test_CB();*/
+
+    return CU_get_error();
 }
