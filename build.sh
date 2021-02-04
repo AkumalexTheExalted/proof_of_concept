@@ -15,8 +15,12 @@ export PATH=$HOME/.sonar/build-wrapper-linux-x86:$PATH
 rm -rf build
 mkdir build
 cd build
+echo
+ls
 cmake ../CMakeLists.txt
 make
+cd ..
+echo
 
 # Build inside the build-wrapper
 
