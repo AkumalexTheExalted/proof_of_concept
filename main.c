@@ -224,14 +224,13 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
 
 //test comportement logiciel commande fenetre.
 void test_CC_fenetre(){
-    CU_pSuite pSuite = NULL;
-
     capteur_vocal cv1;
     capteur_vocal cv2;
     capteur_vocal cv3;
     capteur_vocal cv4;
     capteur_vocal cv5;
     capteur_vocal cv6;
+    capteur_vocal cv7;
 
     cv1.commande = "fenetre ouvre 25";
     cv1.auth = 1;
@@ -245,13 +244,16 @@ void test_CC_fenetre(){
     cv5.auth = 1;
     cv6.commande = "fenetre ouvre -25";
     cv6.auth = 1;
+    cv7.commande = "fene ferme";
+    cv7.auth = 1;
 
     CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
     CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv3), true);
     CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv7), false);
 }
 
 
@@ -263,6 +265,7 @@ void test_CC_chauffage(){
     capteur_vocal cv4;
     capteur_vocal cv5;
     capteur_vocal cv6;
+    capteur_vocal cv7;
 
     cv1.commande = "chauffage augmente";
     cv1.auth = 1;
@@ -274,8 +277,10 @@ void test_CC_chauffage(){
     cv4.auth = 1;
     cv5.commande = "chauffage augmente 20";
     cv5.auth = 1;
-    cv6.commande = "chaffage baisse 30";
+    cv6.commande = "chauffage baisse 30";
     cv6.auth = 1;
+    cv7.commande = "chauf baisse";
+    cv7.auth = 1;
 
     CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
     CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
@@ -283,6 +288,7 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv7), false);
 }
 
 //test comportement logiciel commande paiement.
@@ -291,6 +297,7 @@ void test_CB(){
     capteur_vocal cv2;
     capteur_vocal cv3;
     capteur_vocal cv4;
+    capteur_vocal cv5;
 
     cv1.commande = "paiement McDonalds 36";
     cv1.auth = 1;
@@ -300,11 +307,14 @@ void test_CB(){
     cv3.auth = 1;
     cv4.commande = "paiement EIDD 600";
     cv4.auth = 1;
+    cv5.commande = "paie EIDD 20";
+    cv5.auth = 1;
 
     CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
     CU_ASSERT_EQUAL( is_correct_capteur(cv2), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
     CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
+    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
 }
 
 int main() {
