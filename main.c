@@ -180,6 +180,7 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
     //phase de sécurisation des entrées.
     // 15 <= curr_temp <= 25 && 0 < curr_pourc <= 100 && curr_cb = [-1, 0, 1, 2]
     affichage_cb(curr_cb);
+    int compteur = count_words(cdv.commande);
     commande com;
     //état de base
     com.temperature = 20;
@@ -198,6 +199,8 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
             //printf("FENETRE\n");
             if (strncmp(commande[1], "ferme", 7) == 0) {
                 com.pourcentage = 0;
+            }else if(compteur == 2) {
+                com.pourcentage = 100;
             }else{
                 com.pourcentage = atoi(commande[2]);
             }
