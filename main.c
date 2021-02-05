@@ -176,7 +176,7 @@ void affichage_cb(int curr_cb){
 }
 
 commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr_cb){
-    //phase de sécurisation des entrées
+    //phase de sécurisation des entrées.
     // 15 <= curr_temp <= 25 && 0 < curr_pourc <= 100 && curr_cb = [-1, 0, 1, 2]
     affichage_cb(curr_cb);
     commande com;
