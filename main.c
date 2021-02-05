@@ -26,6 +26,7 @@
 #define PROP1 "fenetre ferme"
 #define PROP2 "chauffage augmente"
 #define PROP3 "chauffage baisse"
+#define PROP4 "fenetre ouvre"
 
 
 typedef struct capteur_vocal{
@@ -122,7 +123,7 @@ bool is_correct_capteur(capteur_vocal cdv){
     //printf("number of word : %d\n", number_of_word);
     if(number_of_word >= 2 || number_of_word <= 3){
         if(number_of_word == 2){
-            if (cdv.commande == PROP1 || cdv.commande == PROP2 || cdv.commande == PROP3){
+            if (cdv.commande == PROP1 || cdv.commande == PROP2 || cdv.commande == PROP3 || cdv.commande == PROP4){
                 return true;
             }
         }else{
