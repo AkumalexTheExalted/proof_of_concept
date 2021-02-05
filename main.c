@@ -40,7 +40,7 @@ typedef struct commande{
     int montant;
 } commande;
 
-/* Test Suite setup and cleanup functions: */
+/* Test suite setup and cleanup functions: */
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
 
