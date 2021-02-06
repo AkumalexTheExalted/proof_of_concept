@@ -266,7 +266,7 @@ bool controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr_cb)
         }else if(strncmp(commande[0], "chauffage", 9) == 0){
             if(strncmp(commande[1], "augmente", 8) == 0 && (curr_temp + 2 <= MAX_TEMP)){
                 com.temperature = curr_temp + 2;
-            }else if (curr_temp - 2 >= MIN_TEMP){
+            }else if (strncmp(commande[1], "baisse", 8) == 0 && curr_temp - 2 >= MIN_TEMP){
                 com.temperature = curr_temp - 2;
             }
         }else{
@@ -336,7 +336,7 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
     
-    CU_ASSERT_EQUAL( controleur(cv1, 25, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv1, 25, 0, 0), true);
     CU_ASSERT_EQUAL( controleur(cv2, 35, 0, NC), false);
 }
 
@@ -362,7 +362,7 @@ void test_CB(){
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 1), true);
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, -1), true);
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), false);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), true);
 }
 
 /*
