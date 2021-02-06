@@ -301,28 +301,6 @@ void test_CC_fenetre(){
     capteur_vocal cv5 = {"fenetre fermer", 1};      //erreur d'instruction "fermer"
     capteur_vocal cv6 = {"fenetre ouvre -25", 1};   //erreur de pourcentage
     capteur_vocal cv7 = {"fene ferme", 1};          //erreur d'instruction
-    /*capteur_vocal cv1;
-    capteur_vocal cv2;
-    capteur_vocal cv3;
-    capteur_vocal cv4;
-    capteur_vocal cv5;
-    capteur_vocal cv6;
-    capteur_vocal cv7;
-
-    cv1.commande = "fenetre ouvre 25";
-    cv1.auth = 1;
-    cv2.commande = "fenetre ferme";
-    cv2.auth = 1;
-    cv3.commande = "fenetre ouvre";
-    cv3.auth = 1;
-    cv4.commande = "fenetre ouvrir 25";
-    cv4.auth = 1;
-    cv5.commande = "fenetre fermer";
-    cv5.auth = 1;
-    cv6.commande = "fenetre ouvre -25";
-    cv6.auth = 1;
-    cv7.commande = "fene ferme";
-    cv7.auth = 1;*/
 
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
     CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
@@ -332,6 +310,10 @@ void test_CC_fenetre(){
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
     
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 90, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 100, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 120, NC), false);
 }
 
 /**
@@ -345,21 +327,6 @@ void test_CC_chauffage(){
     capteur_vocal cv5 = {"chauffage augmente 20", 1};   //erreur d'instruction
     capteur_vocal cv6 = {"chauffage baisse 30", 1};     //erreur d'instruction
     capteur_vocal cv7 = {"chauf baisse", 1};            //erreur d'instruction
-/*
-    cv1.commande = "chauffage augmente";
-    cv1.auth = 1;
-    cv2.commande = "chauffage baisse";
-    cv2.auth = 1;
-    cv3.commande = "chauffage augmentation";
-    cv3.auth = 1;
-    cv4.commande = "chauffage diminution";
-    cv4.auth = 1;
-    cv5.commande = "chauffage augmente 20";
-    cv5.auth = 1;
-    cv6.commande = "chauffage baisse 30";
-    cv6.auth = 1;
-    cv7.commande = "chauf baisse";
-    cv7.auth = 1;*/
 
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
     CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
@@ -369,6 +336,8 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
     
+    CU_ASSERT_EQUAL( controleur(cv1, 25, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv2, 35, 0, NC), false);
 }
 
 /**
@@ -381,17 +350,6 @@ void test_CB(){
     capteur_vocal cv4 = {"paiement EIDD 600", 1};   //montant trop élevé
     capteur_vocal cv5 = {"paie EIDD 20", 1};    //montant trop faible
     capteur_vocal cv6 = {"paiement McDonalds 36", 0};   //authentification incorrect
-/*
-    cv1.commande = "paiement McDonalds 36";
-    cv1.auth = 1;
-    cv2.commande = "paiement 36";
-    cv2.auth = 1;
-    cv3.commande = "paiement McDonalds";
-    cv3.auth = 1;
-    cv4.commande = "paiement EIDD 600";
-    cv4.auth = 1;
-    cv5.commande = "paie EIDD 20";
-    cv5.auth = 1;*/
 
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
     CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), false);
@@ -399,6 +357,12 @@ void test_CB(){
     CU_ASSERT_EQUAL( controleur(cv4, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
+
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 0), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 1), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, -1), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), false);
 }
 
 /*
