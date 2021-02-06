@@ -159,7 +159,7 @@ void affichage_cb(int curr_cb){
     if(is_correct_cb(curr_cb)){
         switch (curr_cb) {
             case ECHEC:
-                printf("operation bancaire précédente ratee\n");
+                printf("operation bancaire precedente ratee\n");
                 break;
             case ILLICITE:
                 printf("opération bancaire precedente illicite\n");
@@ -167,8 +167,11 @@ void affichage_cb(int curr_cb){
             case REUSSITE:
                 printf("operation bancaire precedente reussie\n");
                 break;
-            default:
+            case NC:
                 printf("aucune operation bancaire precedemment\n");
+                break;
+            default:
+                printf("operation precedente non reconnue\n");
                 break;
         }
     }else{
@@ -176,10 +179,13 @@ void affichage_cb(int curr_cb){
     }
 }
 
-commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr_cb){
+/*
+* Rajouter la gestion de l'authentification lors de l'achat
+*/
+bool controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr_cb){
     //phase de sécurisation des entrées.
     // 15 <= curr_temp <= 25 && 0 < curr_pourc <= 100 && curr_cb = [-1, 0, 1, 2]
-    affichage_cb(curr_cb);
+    bool job_is_done = false;
     int compteur = count_words(cdv.commande);
     commande com;
     //état de base
@@ -189,6 +195,7 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
     com.montant = 0;
     //printf("avant correct temperature : %f\n", com.temperature);
     if (is_correct_temp(curr_temp)== true && is_correct_pourc(curr_pourc) == true && is_correct_capteur(cdv) == true){
+        job_is_done = true;
         com.temperature = curr_temp;
         com.pourcentage = curr_pourc;
         com.destinataire = NULL;
@@ -218,13 +225,33 @@ commande controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr
         }
     }
     //printf("apres traitement : %f\n", com.temperature);
-    return com;
+    //affichage cosmétique
+    affichage_cb(curr_cb);
+    printf("valeur temperature : %f\n", ret.temperature);
+    printf("valeur pourcentage : %d\n", ret.pourcentage);
+    printf("valeur destinataire : %s\n", ret.destinataire);
+    printf("valeur montant : %d\n", ret.montant);
+    return job_is_done;
 }
 
+/*
+*****************************************************
+* TEST CASE pour controleur, A VERIFIER
+* Ajouter les tests pour les températures et pourcentage en entrée de controleur
+* Pas de tests pour le retour du compte bancaire, on ne fait qu'afficher ce que nous dit la banque
+*****************************************************
+*/
 
 //test comportement logiciel commande fenetre.
 void test_CC_fenetre(){
-    capteur_vocal cv1;
+    capteur_vocal cv1 = {"fenetre ouvre 25", 1};
+    capteur_vocal cv2 = {"fenetre ferme", 1};
+    capteur_vocal cv3 = {"fenetre ouvre", 1};
+    capteur_vocal cv4 = {"fenetre ouvrir 25", 1};
+    capteur_vocal cv5 = {"fenetre fermer", 1};
+    capteur_vocal cv6 = {"fenetre ouvre -25", 1};
+    capteur_vocal cv7 = {"fene ferme", 1};
+    /*capteur_vocal cv1;
     capteur_vocal cv2;
     capteur_vocal cv3;
     capteur_vocal cv4;
@@ -245,28 +272,29 @@ void test_CC_fenetre(){
     cv6.commande = "fenetre ouvre -25";
     cv6.auth = 1;
     cv7.commande = "fene ferme";
-    cv7.auth = 1;
+    cv7.auth = 1;*/
 
-    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv3), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv7), false);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv4, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
+    
 }
 
 
 //test comportement logiciel commande chauffage.
 void test_CC_chauffage(){
-    capteur_vocal cv1;
-    capteur_vocal cv2;
-    capteur_vocal cv3;
-    capteur_vocal cv4;
-    capteur_vocal cv5;
-    capteur_vocal cv6;
-    capteur_vocal cv7;
-
+    capteur_vocal cv1 = {"chauffage augmente", 1};
+    capteur_vocal cv2 = {"chauffage baisse", 1};
+    capteur_vocal cv3 = {"chauffage augmentation", 1};
+    capteur_vocal cv4 = {"chauffage diminution", 1};
+    capteur_vocal cv5 = {"chauffage augmente 20", 1};
+    capteur_vocal cv6 = {"chauffage baisse 30", 1};
+    capteur_vocal cv7 = {"chauf baisse", 1};
+/*
     cv1.commande = "chauffage augmente";
     cv1.auth = 1;
     cv2.commande = "chauffage baisse";
@@ -280,25 +308,26 @@ void test_CC_chauffage(){
     cv6.commande = "chauffage baisse 30";
     cv6.auth = 1;
     cv7.commande = "chauf baisse";
-    cv7.auth = 1;
+    cv7.auth = 1;*/
 
-    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv2), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv6), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv7), false);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv4, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
+    
 }
 
 //test comportement logiciel commande paiement.
 void test_CB(){
-    capteur_vocal cv1;
-    capteur_vocal cv2;
-    capteur_vocal cv3;
-    capteur_vocal cv4;
-    capteur_vocal cv5;
-
+    capteur_vocal cv1 = {"paiement McDonalds 36", 1};
+    capteur_vocal cv2 = {"paiement 36", 1};
+    capteur_vocal cv3 = {"paiement McDonalds", 1};
+    capteur_vocal cv4 = {"paiement EIDD 600", 1};
+    capteur_vocal cv5 = {"paie EIDD 20", 1};
+/*
     cv1.commande = "paiement McDonalds 36";
     cv1.auth = 1;
     cv2.commande = "paiement 36";
@@ -308,14 +337,19 @@ void test_CB(){
     cv4.commande = "paiement EIDD 600";
     cv4.auth = 1;
     cv5.commande = "paie EIDD 20";
-    cv5.auth = 1;
+    cv5.auth = 1;*/
 
-    CU_ASSERT_EQUAL( is_correct_capteur(cv1), true);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv2), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv3), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv4), false);
-    CU_ASSERT_EQUAL( is_correct_capteur(cv5), false);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv4, 15, 0, NC), false);
+    CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
 }
+
+/*
+*****************************************************
+*****************************************************
+*/
 
 int main() {
     /*
