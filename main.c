@@ -316,6 +316,17 @@ void test_CC_fenetre(){
     CU_ASSERT_EQUAL( controleur(cv3, 15, 120, NC), false);
 }
 
+void test_CC_fenetre_courante(){
+    capteur_vocal cv1 = {"fenetre ouvre 25", 1};    //ouverture correcte
+    capteur_vocal cv2 = {"fenetre ferme", 1};       //fermeture correcte
+    capteur_vocal cv3 = {"fenetre ouvre", 1};       //ouverture correcte
+    
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 90, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 100, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv3, 15, 120, NC), false);
+}
+
 /**
  * TEST CASE : comportement du contrôleur lors de la manipulation du chauffage
  */
@@ -335,6 +346,14 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
+    
+    CU_ASSERT_EQUAL( controleur(cv1, 25, 0, 0), true);
+    CU_ASSERT_EQUAL( controleur(cv2, 35, 0, NC), false);
+}
+
+void test_CC_temperature_courante(){
+    capteur_vocal cv1 = {"chauffage augmente", 1};  //instruction correcte
+    capteur_vocal cv2 = {"chauffage baisse", 1};    //instruction correcte
     
     CU_ASSERT_EQUAL( controleur(cv1, 25, 0, 0), true);
     CU_ASSERT_EQUAL( controleur(cv2, 35, 0, NC), false);
@@ -365,6 +384,16 @@ void test_CB(){
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), true);
 }
 
+void test_CC_montant_courant(){
+    capteur_vocal cv1 = {"paiement McDonalds 36", 1};   //paiement correct
+
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 0), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 1), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, -1), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
+    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), true);
+}
+
 /*
 *****************************************************
 *****************************************************
@@ -382,7 +411,10 @@ int main() {
     }
     if ( (NULL == CU_add_test(pSuite, "test_CC_fenetre", test_CC_fenetre)) ||
          (NULL == CU_add_test(pSuite, "test_CC_chauffage", test_CC_chauffage)) ||
-         (NULL == CU_add_test(pSuite, "test_CB", test_CB))
+         (NULL == CU_add_test(pSuite, "test_CB", test_CB)) ||
+         (NULL == CU_add_test(pSuite, "test_CC_fenetre_courante", test_CC_fenetre_courante)) ||
+         (NULL == CU_add_test(pSuite, "test_CC_temperature_courante", test_CC_temperature_courante)) ||
+         (NULL == CU_add_test(pSuite, "test_CC_montant_courant", test_CC_montant_courant))
             )
     {
         CU_cleanup_registry();
