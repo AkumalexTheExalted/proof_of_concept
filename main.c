@@ -189,15 +189,16 @@ bool is_correct_capteur(capteur_vocal cdv){
             }
             //on ne peut payer que si c'est le propriétaire de la voiture qui fait la demande
             if (strncmp(token[0], "paiement", 8) == 0 && cdv.auth == 1){
-                if(is_numeric_value(token[2])){ //vérifier que le dernier mot est un nombre
-                    int numeric_value = atoi(token[2]);
-                    if(is_correct_amount(numeric_value)){   //vérifier que le montant est correct
-                        return true;
-                    }else{
-                        return false;
+                if(token[1] != NULL){   //il doit y avoir un destinataire
+                    if(is_numeric_value(token[2])){ //vérifier que le dernier mot est un nombre
+                        int numeric_value = atoi(token[2]);
+                        if(is_correct_amount(numeric_value)){   //vérifier que le montant est correct
+                            return true;
+                        }else{
+                            return false;
+                        }
                     }
                 }
-                return false;
             }
         }
     }
@@ -283,13 +284,7 @@ bool controleur(capteur_vocal cdv, float curr_temp, int curr_pourc, int curr_cb)
     return job_is_done;
 }
 
-/*
-*****************************************************
-* TEST CASE pour controleur, A VERIFIER
-* Ajouter les tests pour les températures et pourcentage en entrée de controleur
-* Pas de tests pour le retour du compte bancaire, on ne fait qu'afficher ce que nous dit la banque
-*****************************************************
-*/
+
 /**
  * TEST CASE : comportement du contrôleur lors de la manipulation de la fenêtre
  */
@@ -379,11 +374,6 @@ void test_CC_montant_courant(){
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
     CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), true);
 }
-
-/*
-*****************************************************
-*****************************************************
-*/
 
 int main() {
     //lancement des TC du contrôleur
