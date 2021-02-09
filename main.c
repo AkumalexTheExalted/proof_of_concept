@@ -309,11 +309,6 @@ void test_CC_fenetre(){
     CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
-    
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 90, NC), true);
-    CU_ASSERT_EQUAL( controleur(cv2, 15, 0, NC), true);
-    CU_ASSERT_EQUAL( controleur(cv3, 15, 100, NC), true);
-    CU_ASSERT_EQUAL( controleur(cv3, 15, 120, NC), false);
 }
 
 void test_CC_fenetre_courante(){
@@ -346,9 +341,6 @@ void test_CC_chauffage(){
     CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv7, 15, 0, NC), false);
-    
-    CU_ASSERT_EQUAL( controleur(cv1, 25, 0, 0), true);
-    CU_ASSERT_EQUAL( controleur(cv2, 35, 0, NC), false);
 }
 
 void test_CC_temperature_courante(){
@@ -376,12 +368,6 @@ void test_CB(){
     CU_ASSERT_EQUAL( controleur(cv4, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv5, 15, 0, NC), false);
     CU_ASSERT_EQUAL( controleur(cv6, 15, 0, NC), false);
-
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 0), true);
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 1), true);
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, -1), true);
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, NC), true);
-    CU_ASSERT_EQUAL( controleur(cv1, 15, 0, 250), true);
 }
 
 void test_CC_montant_courant(){
